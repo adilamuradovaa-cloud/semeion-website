@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Semeion — The Observatory of Brands & Culture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F1E8D8;
+    --cream-warm:#EAE0CB;
+    --ink:#16130F;
+    --ink-soft:#2B2620;
+    --crimson:#A31F2B;
+    --crimson-deep:#7E1620;
+    --muted:rgba(22,19,15,0.6);
+    --display:'Anton', sans-serif;
+    --serif:'Cormorant Garamond', serif;
+    --sans:'IBM Plex Sans', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--cream);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 40px;}
+
+  /* grain */
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:0.045;z-index:9999;mix-blend-mode:multiply;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  /* ---------- HEADER ---------- */
+  header{padding:26px 0 0;}
+  .navbar{display:flex;align-items:center;justify-content:space-between;max-width:1280px;margin:0 auto;padding:0 40px;}
+  .logo{display:flex;align-items:center;gap:10px;}
+  .logo svg{width:26px;height:26px;flex-shrink:0;}
+  .logo span{font-family:var(--display);font-size:19px;letter-spacing:0.06em;}
+  .navbar ul{display:flex;align-items:center;gap:34px;}
+  .navbar ul li a{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:500;position:relative;padding-bottom:3px;}
+  .navbar ul li a::after{content:"";position:absolute;left:0;bottom:-2px;width:0;height:1.5px;background:var(--crimson);transition:width 0.2s ease;}
+  .navbar ul li a:hover::after{width:100%;}
+  .nav-icons{display:flex;align-items:center;gap:22px;}
+  .nav-icons .icon-btn{background:none;border:none;cursor:pointer;font-family:var(--sans);font-size:12px;letter-spacing:0.08em;text-transform:uppercase;font-weight:500;display:flex;align-items:center;gap:8px;color:var(--ink);padding:4px;}
+  .nav-icons svg{width:17px;height:17px;}
+  .nav-icons .icon-btn.active svg{stroke:var(--crimson);}
+
+  /* ---------- SEARCH OVERLAY ---------- */
+  .search-overlay{position:fixed;inset:0;background:rgba(22,19,15,0.97);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity 0.25s ease;z-index:200;}
+  .search-overlay.active{opacity:1;visibility:visible;}
+  .search-close{position:absolute;top:30px;right:40px;background:none;border:none;color:var(--cream);font-size:30px;line-height:1;cursor:pointer;}
+  .search-form{width:min(560px,84vw);}
+  .search-form input{width:100%;background:none;border:none;border-bottom:1px solid var(--crimson);padding:10px 2px;font-family:var(--serif);font-size:clamp(24px,3.5vw,34px);color:var(--cream);outline:none;}
+  .search-form input::placeholder{color:rgba(241,232,216,0.4);}
+
+  /* ---------- MOBILE NAV ---------- */
+  .mobile-nav{position:fixed;top:0;right:-320px;width:280px;height:100vh;background:var(--cream);border-left:1px solid rgba(22,19,15,0.14);display:flex;flex-direction:column;gap:28px;padding:110px 36px;transition:right 0.3s ease;z-index:220;}
+  .mobile-nav a{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;}
+  .mobile-nav a:hover{color:var(--crimson);}
+  .mobile-nav.active{right:0;}
+  .mobile-nav-backdrop{position:fixed;inset:0;background:rgba(22,19,15,0.4);opacity:0;visibility:hidden;transition:opacity 0.3s ease;z-index:210;}
+  .mobile-nav-backdrop.active{opacity:1;visibility:visible;}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:56px 0 40px;position:relative;}
+  .hero-grid{max-width:1280px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1.15fr 1fr;gap:20px;align-items:center;position:relative;}
+  .eyebrow{font-size:12px;letter-spacing:0.16em;text-transform:uppercase;font-weight:600;color:var(--crimson);margin-bottom:18px;display:block;}
+  .hero-word{font-family:var(--display);font-size:clamp(64px,10.5vw,148px);line-height:0.82;letter-spacing:-0.01em;color:var(--ink);margin-left:-4px;}
+  .hero-tagline{font-family:var(--serif);font-weight:600;font-size:clamp(17px,1.7vw,23px);letter-spacing:0.14em;text-transform:uppercase;line-height:1.7;margin-top:22px;max-width:480px;}
+  .hero-tagline .dot{color:var(--crimson);}
+
+  .cobra-wrap{position:relative;display:flex;justify-content:center;align-items:center;}
+  .cobra-wrap svg{width:100%;max-width:420px;height:auto;}
+
+  .focus-panel{position:absolute;top:8%;right:0;text-align:left;max-width:150px;}
+  .focus-panel .eyebrow{margin-bottom:8px;}
+  .focus-panel p{font-family:var(--sans);font-size:12.5px;font-weight:600;letter-spacing:0.03em;line-height:1.7;text-transform:uppercase;color:var(--crimson);}
+  .focus-rule{width:26px;height:2px;background:var(--crimson);margin-top:10px;}
+
+  /* ---------- FEATURED ESSAY ---------- */
+  .featured-section{padding:36px 0 64px;}
+  .featured-card{display:grid;grid-template-columns:1.15fr 1fr 60px;background:var(--ink);min-height:340px;}
+  .featured-text{padding:44px 40px;display:flex;flex-direction:column;justify-content:center;}
+  .featured-num{font-family:var(--display);font-size:15px;color:var(--crimson);letter-spacing:0.1em;margin-bottom:18px;}
+  .featured-text h2{font-family:var(--serif);font-weight:600;font-size:clamp(26px,2.8vw,38px);line-height:1.18;color:var(--cream);margin-bottom:18px;}
+  .featured-text p{font-size:14.5px;line-height:1.7;color:rgba(241,232,216,0.68);max-width:400px;margin-bottom:26px;}
+  .featured-link{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--crimson);display:inline-flex;align-items:center;gap:8px;width:fit-content;}
+  .featured-link:hover{color:#D8626D;}
+
+  .featured-visual{background:var(--cream-warm);display:flex;align-items:center;justify-content:center;gap:28px;padding:30px;}
+  .product-mark{display:flex;flex-direction:column;align-items:center;gap:10px;}
+  .product-mark svg{width:78px;height:78px;}
+  .product-mark span{font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--ink);}
+
+  .featured-tags{border-left:1px solid rgba(241,232,216,0.18);display:flex;align-items:center;justify-content:center;padding:20px 0;background:var(--ink);}
+  .featured-tags span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(241,232,216,0.5);font-weight:500;white-space:nowrap;}
+
+  /* ---------- ABOUT + OBSERVE ---------- */
+  .about-observe{padding:20px 0 60px;border-top:1px solid rgba(22,19,15,0.14);}
+  .ao-grid{max-width:1280px;margin:0 auto;padding:56px 40px 0;display:grid;grid-template-columns:1fr 1fr;gap:70px;position:relative;}
+  .ao-snake{position:absolute;left:46%;top:0;width:90px;height:100%;opacity:0.9;pointer-events:none;}
+  .ao-snake svg{width:100%;height:100%;}
+
+  .ao-left h2, .ao-right h2{font-family:var(--display);font-size:15px;letter-spacing:0.1em;text-transform:uppercase;color:var(--crimson);margin-bottom:20px;}
+  .ao-left p{font-size:15px;line-height:1.75;color:var(--ink);margin-bottom:18px;max-width:440px;}
+  .pull-lines{font-family:var(--serif);font-style:italic;font-weight:600;font-size:19px;line-height:1.6;color:var(--crimson);margin:22px 0 26px;}
+  .pull-lines span{display:block;}
+  .read-more{font-size:12.5px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;display:inline-flex;align-items:center;gap:8px;}
+  .read-more:hover{color:var(--crimson);}
+
+  .observe-list li{display:flex;align-items:center;gap:18px;padding:20px 0;border-bottom:1px solid rgba(22,19,15,0.12);}
+  .observe-list li:first-child{border-top:1px solid rgba(22,19,15,0.12);}
+  .observe-icon{width:36px;height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+  .observe-icon svg{width:22px;height:22px;}
+  .observe-body{flex:1;}
+  .observe-body b{display:block;font-size:13.5px;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:3px;}
+  .observe-body span{font-size:13px;color:var(--muted);}
+  .observe-arrow{font-size:16px;color:var(--muted);}
+
+  /* ---------- ARCHIVE ---------- */
+  .archive-section{padding:50px 0;border-top:1px solid rgba(22,19,15,0.14);}
+  .archive-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:34px;}
+  .archive-head .view-all{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;}
+  .archive-head .view-all:hover{color:var(--crimson);}
+  .archive-row{display:grid;grid-template-columns:1.4fr 1fr 1fr;}
+  .archive-item{padding:0 30px;border-left:1px solid rgba(22,19,15,0.18);}
+  .archive-item:first-child{padding-left:0;border-left:none;}
+  .archive-item .num{font-family:var(--display);font-size:26px;color:var(--ink);opacity:0.85;display:block;margin-bottom:10px;}
+  .archive-item.soon .num{opacity:0.25;}
+  .archive-item a{font-family:var(--serif);font-weight:600;font-size:19px;line-height:1.3;display:block;margin-bottom:8px;}
+  .archive-item a:hover{color:var(--crimson);}
+  .archive-item span.meta{font-size:12px;color:var(--muted);letter-spacing:0.03em;}
+  .archive-item.soon span.meta{color:rgba(22,19,15,0.35);font-style:italic;font-family:var(--serif);}
+
+  /* ---------- NEWSLETTER ---------- */
+  .newsletter{background:var(--ink);padding:0;}
+  .nl-grid{max-width:1280px;margin:0 auto;padding:0 40px;display:grid;grid-template-columns:1.3fr 1fr;align-items:center;min-height:190px;gap:20px;}
+  .nl-text h3{font-family:var(--display);color:var(--cream);font-size:26px;letter-spacing:0.04em;margin-bottom:10px;}
+  .nl-text p{color:rgba(241,232,216,0.6);font-size:13.5px;line-height:1.6;margin-bottom:20px;max-width:340px;}
+  .nl-form{display:flex;max-width:400px;}
+  .nl-form input{flex:1;background:transparent;border:1px solid rgba(241,232,216,0.35);border-right:none;padding:13px 16px;color:var(--cream);font-family:var(--sans);font-size:13px;}
+  .nl-form input::placeholder{color:rgba(241,232,216,0.4);}
+  .nl-form button{background:var(--crimson);color:var(--cream);border:none;padding:0 22px;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;cursor:pointer;}
+  .nl-form button:hover{background:var(--crimson-deep);}
+  .nl-message{color:var(--crimson);font-size:12px;margin-top:10px;min-height:14px;}
+  .nl-eye{display:flex;justify-content:flex-end;}
+  .nl-eye svg{width:150px;height:150px;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:44px 0;}
+  .footer-grid{max-width:1280px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .footer-left{display:flex;align-items:center;gap:18px;}
+  .footer-badge{width:50px;height:50px;flex-shrink:0;}
+  .footer-copy{font-size:12px;color:var(--muted);}
+  .footer-social{display:flex;gap:14px;font-size:12px;letter-spacing:0.06em;text-transform:uppercase;font-weight:500;}
+  .footer-social a:hover{color:var(--crimson);}
+  .footer-tagline{font-size:12px;letter-spacing:0.04em;text-transform:uppercase;font-weight:500;text-align:right;line-height:1.6;}
+  .footer-tagline .dot{color:var(--crimson);}
+
+  @media (max-width:900px){
+    .navbar ul{display:none;}
+    .hero-grid{grid-template-columns:1fr;}
+    .cobra-wrap{margin-top:20px;}
+    .focus-panel{position:static;margin-top:20px;}
+    .featured-card{grid-template-columns:1fr;}
+    .featured-tags{display:none;}
+    .ao-grid{grid-template-columns:1fr;gap:40px;}
+    .ao-snake{display:none;}
+    .archive-row{grid-template-columns:1fr;}
+    .archive-item{border-left:none;border-top:1px solid rgba(22,19,15,0.18);padding:20px 0;}
+    .archive-item:first-child{border-top:none;}
+    .nl-grid{grid-template-columns:1fr;text-align:left;padding:36px 40px;}
+    .nl-eye{display:none;}
+    .footer-tagline{text-align:left;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="navbar">
+    <a href="index.html" class="logo">
+      <svg viewBox="0 0 40 40" fill="none"><path d="M20 4C13 4 9 9 9 15c0 5 3 8 3 12 0 5-3 6-3 6" stroke="#16130F" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="12" r="3.2" fill="#16130F"/></svg>
+      <span>SEMEION</span>
+    </a>
+    <ul>
+      <li><a href="essays.html">Essays</a></li>
+      <li><a href="#archive">Archive</a></li>
+      <li><a href="about.html">About</a></li>
+    </ul>
+    <div class="nav-icons">
+      <button id="searchToggle" class="icon-btn" aria-label="Search" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="#16130F" stroke-width="1.8"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg> Search</button>
+      <button id="menuToggle" class="icon-btn" aria-label="Menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="#16130F" stroke-width="1.8"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/></svg></button>
+    </div>
+  </nav>
+</header>
+
+<!-- Search overlay -->
+<div id="searchOverlay" class="search-overlay">
+  <button id="searchClose" class="search-close" aria-label="Close search">×</button>
+  <form id="searchForm" class="search-form" onsubmit="return false;">
+    <input type="text" id="searchInput" placeholder="Search Semeion…" autocomplete="off">
+  </form>
+</div>
+
+<!-- Mobile menu panel -->
+<nav id="mobileNav" class="mobile-nav">
+  <a href="essays.html">Essays</a>
+  <a href="#archive">Archive</a>
+  <a href="about.html">About</a>
+</nav>
+<div id="mobileNavBackdrop" class="mobile-nav-backdrop"></div>
+
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      
+      <h1 class="hero-word">SEMEION</h1>
+      <p class="hero-tagline">An independent observatory of brands, storytelling and culture.<br>Researching how communication shapes perception<span class="dot">.</span></p>
+    </div>
+    <div class="cobra-wrap">
+      <svg viewBox="0 0 420 460" fill="none">
+        <defs>
+          <pattern id="scales" width="14" height="14" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
+            <path d="M7 0 L14 7 L7 14 L0 7 Z" fill="none" stroke="#16130F" stroke-width="0.6" opacity="0.55"/>
+          </pattern>
+        </defs>
+        <path d="M300 40C300 40 340 90 300 140C260 190 200 170 180 220C160 270 220 280 220 330C220 370 180 400 140 410"
+          stroke="#16130F" stroke-width="34" stroke-linecap="round" fill="none"/>
+        <path d="M300 40C300 40 340 90 300 140C260 190 200 170 180 220C160 270 220 280 220 330C220 370 180 400 140 410"
+          stroke="url(#scales)" stroke-width="34" stroke-linecap="round" fill="none"/>
+        <path d="M270 30C255 10 320 5 330 35C338 60 305 60 290 48" fill="#16130F"/>
+        <circle cx="305" cy="30" r="3" fill="#A31F2B"/>
+        <circle cx="200" cy="330" r="9" fill="none" stroke="#A31F2B" stroke-width="1.4"/>
+        <circle cx="200" cy="330" r="24" fill="none" stroke="#A31F2B" stroke-width="1"/>
+        <circle cx="200" cy="330" r="3" fill="#A31F2B"/>
+        <line x1="200" y1="270" x2="200" y2="306" stroke="#A31F2B" stroke-width="1"/>
+        <line x1="200" y1="354" x2="200" y2="390" stroke="#A31F2B" stroke-width="1"/>
+        <line x1="140" y1="330" x2="176" y2="330" stroke="#A31F2B" stroke-width="1"/>
+        <line x1="224" y1="330" x2="260" y2="330" stroke="#A31F2B" stroke-width="1"/>
+      </svg>
+      <div class="focus-panel">
+        <span class="eyebrow">Focus</span>
+        <p>Trends.<p>Brands.<p>Storytelling.<p>Public reaction.</p>
+        <div class="focus-rule"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="featured-section">
+  <div class="wrap">
+    <span class="eyebrow">Featured Case Study</span>
+    <div class="featured-card">
+      <div class="featured-text">
+        <span class="featured-num">001</span>
+        <h2>When Eyewear Becomes a Ritual: What IOLLA Teaches Us About Experiential Branding</h2>
+        <p>IOLLA sells frames named after Scottish places. Nespresso sells capsules named after cities. Neither is really selling optics or coffee. They're selling a version of yourself.</p>
+        <a href="iolla-vs-nespresso.html" class="featured-link">Read the case study →</a>
+      </div>
+      <div class="featured-visual">
+        <div class="product-mark">
+          <svg viewBox="0 0 80 80" fill="none"><rect x="18" y="26" width="40" height="38" rx="4" stroke="#16130F" stroke-width="2.4"/><path d="M58 34h8a8 8 0 0 1 0 16h-8" stroke="#16130F" stroke-width="2.4"/><line x1="26" y1="20" x2="26" y2="26" stroke="#16130F" stroke-width="2.4"/><line x1="40" y1="20" x2="40" y2="26" stroke="#16130F" stroke-width="2.4"/></svg>
+          <span>Iolla</span>
+        </div>
+        <div class="product-mark">
+          <svg viewBox="0 0 80 80" fill="none"><path d="M28 26h24l-3 34a9 9 0 0 1-9 8h-0a9 9 0 0 1-9-8Z" fill="#A31F2B"/><ellipse cx="40" cy="26" rx="12" ry="4" fill="#16130F"/></svg>
+          <span>Nespresso</span>
+        </div>
+      </div>
+      <div class="featured-tags"><span>Brand Psychology · Psychography · Storytelling</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="about-observe" id="archive-anchor">
+  <div class="ao-grid">
+    <div class="ao-snake">
+      <svg viewBox="0 0 90 500" fill="none">
+        <path d="M20 10C60 40 20 90 50 130C80 170 20 210 45 260C70 310 20 350 50 400C75 440 30 460 40 490" stroke="#16130F" stroke-width="10" stroke-linecap="round" opacity="0.75"/>
+      </svg>
+    </div>
+    <div class="ao-left">
+      <h2>About Semeion</h2>
+      <p>Semeion is an independent observatory of brands, storytelling and culture. Researching how communication shapes perception.</p>
+      <p>Through essays, case studies and research, Semeion explores branding, public relations, storytelling, consumer psychology and digital culture—not as separate disciplines, but as different ways of understanding why ideas resonate.</p>
+      <div class="pull-lines">
+        <span>We don't follow the noise.</span>
+        <span>We decode what drives it.</span>
+      </div>
+      <a href="file:///Users/adiliamuradova/Desktop/website%20blog/about.html" class="read-more">Read more →</a>
+    </div>
+
+    <div class="ao-right">
+      <h2>What We Observe</h2>
+      <ul class="observe-list">
+<li>
+  <div class="observe-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M10 40c0-9 6-14 8-15 1 3 1 6 0 9" stroke="#16130F" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M54 40c0-9-6-14-8-15-1 3-1 6 0 9" stroke="#16130F" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <path d="M10 40c2 8 9 13 22 13s20-5 22-13" stroke="#16130F" stroke-width="2" stroke-linecap="round" fill="none"/>
+      <g stroke="#B3202A" stroke-width="2" stroke-linecap="round">
+        <line x1="32" y1="16" x2="32" y2="34"/>
+        <line x1="21" y1="27" x2="43" y2="27"/>
+        <line x1="24.5" y1="19.5" x2="39.5" y2="34.5"/>
+        <line x1="39.5" y1="19.5" x2="24.5" y2="34.5"/>
+      </g>
+      <circle cx="32" cy="27" r="3" fill="#B3202A"/>
+      <circle cx="32" cy="12" r="1.5" fill="#B3202A"/>
+    </svg>
+  </div>
+  <div class="observe-body"><b>Brand Storytelling</b><span>Why some brands become cultural icons.</span></div>
+  <span class="observe-arrow">→</span>
+</li>
+
+<li>
+  <div class="observe-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="22" stroke="#16130F" stroke-width="2"/>
+      <circle cx="32" cy="32" r="12" stroke="#B3202A" stroke-width="1.5" stroke-dasharray="3 4"/>
+      <g stroke="#16130F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M32 14v6M32 14l-4 3M32 14l4 3"/>
+        <path d="M32 50v-6M32 50l-4-3M32 50l4 3"/>
+        <path d="M14 32h6M14 32l3-4M14 32l3 4"/>
+        <path d="M50 32h-6M50 32l-3-4M50 32l-3 4"/>
+      </g>
+      <circle cx="32" cy="32" r="3" fill="#B3202A"/>
+    </svg>
+  </div>
+  <div class="observe-body"><b>Public Relations</b><span>How reputation is built before campaigns begin.</span></div>
+  <span class="observe-arrow">→</span>
+</li>
+
+<li>
+  <div class="observe-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M32 16C22 16 14 20 8 24v20c6-4 14-8 24-8s18 4 24 8V24c-6-4-14-8-24-8z" stroke="#16130F" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M32 16v28" stroke="#16130F" stroke-width="2"/>
+      <circle cx="32" cy="26" r="7" stroke="#B3202A" stroke-width="2"/>
+      <circle cx="32" cy="26" r="2.5" fill="#B3202A"/>
+    </svg>
+  </div>
+  <div class="observe-body"><b>Consumer Psychology</b><span>Understanding behaviour behind decisions.</span></div>
+  <span class="observe-arrow">→</span>
+</li>
+
+<li>
+  <div class="observe-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="46" cy="20" r="8" stroke="#B3202A" stroke-width="1.2" stroke-dasharray="2 3"/>
+      <circle cx="46" cy="20" r="14" stroke="#B3202A" stroke-width="1.2" stroke-dasharray="2 3"/>
+      <polyline points="10,46 22,34 32,40 46,20" stroke="#16130F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <path d="M40 18l8-2 2 8" stroke="#16130F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <circle cx="10" cy="46" r="2.5" fill="#B3202A"/>
+      <circle cx="22" cy="34" r="2.5" fill="#B3202A"/>
+      <circle cx="32" cy="40" r="2.5" fill="#B3202A"/>
+      <circle cx="46" cy="20" r="2.5" fill="#B3202A"/>
+    </svg>
+  </div>
+  <div class="observe-body"><b>Trends</b><span>Signals worth noticing before they become obvious.</span></div>
+  <span class="observe-arrow">→</span>
+</li>
+
+<li>
+  <div class="observe-icon">
+    <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="32" cy="32" r="22" stroke="#16130F" stroke-width="1" stroke-dasharray="2 4"/>
+      <ellipse cx="32" cy="32" rx="20" ry="8" stroke="#16130F" stroke-width="2"/>
+      <ellipse cx="32" cy="32" rx="8" ry="20" stroke="#16130F" stroke-width="2"/>
+      <circle cx="32" cy="32" r="4.5" fill="#B3202A"/>
+      <circle cx="12" cy="32" r="2" fill="#B3202A"/>
+      <circle cx="52" cy="32" r="2" fill="#B3202A"/>
+      <circle cx="32" cy="12" r="2" fill="#B3202A"/>
+      <circle cx="32" cy="52" r="2" fill="#B3202A"/>
+    </svg>
+  </div>
+  <div class="observe-body"><b>Digital Experiences</b><span>How design influences perception.</span></div>
+  <span class="observe-arrow">→</span>
+</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="archive-section" id="archive">
+  <div class="wrap">
+    <div class="archive-head">
+      <span class="eyebrow" style="margin-bottom:0;">Latest From The Archive</span>
+      <a href="#archive" class="view-all">View all essays →</a>
+    </div>
+    <div class="archive-row">
+      <div class="archive-item">
+        <span class="num">001</span>
+        <a href="iolla-vs-nespresso.html">When Eyewear Becomes a Ritual: What IOLLA Teaches Us About Experiential Branding</a>
+        <span class="meta">4 min read</span>
+      </div>
+      <div class="archive-item">
+        <span class="num">002</span>
+        <a href="file:///Users/adiliamuradova/Desktop/website%20blog/cultural%20analysis.html">Vinted, TikTok, and 35 Million Views: How a Casual TikTok Video Resurfaced in a Controversial Context.</a>
+        <span class="meta">7 min read</span>
+      </div>
+      <div class="archive-item soon">
+        <span class="num">003</span>
+        <span class="meta">Coming soon</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="nl-grid">
+    <div class="nl-text">
+      <h3>Stay Observant.</h3>
+      <p>Insights, observations and sharp analysis. Straight to your inbox.</p>
+      <form id="nlForm" class="nl-form" action="https://buttondown.email/api/emails/embed-subscribe/semeion" method="post" target="popupwindow" onsubmit="window.open('https://buttondown.email/semeion','popupwindow')">
+        <input type="email" name="email" id="nlEmail" placeholder="Your email address" required>
+        <button type="submit">Subscribe</button>
+      </form>
+      <p id="nlMessage" class="nl-message"></p>
+    </div>
+    <div class="nl-eye">
+      <svg viewBox="0 0 150 150" fill="none">
+        <circle cx="75" cy="75" r="74" fill="#0F0D0A"/>
+        <circle cx="75" cy="75" r="74" stroke="#3A332B" stroke-width="1"/>
+        <ellipse cx="75" cy="75" rx="46" ry="30" fill="#16130F"/>
+        <ellipse cx="75" cy="75" rx="22" ry="22" fill="#A31F2B"/>
+        <ellipse cx="75" cy="75" rx="7" ry="18" fill="#0F0D0A"/>
+        <ellipse cx="65" cy="64" rx="9" ry="5" fill="rgba(241,232,216,0.25)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-left">
+      <svg class="footer-badge" viewBox="0 0 60 60" fill="none">
+        <circle cx="30" cy="30" r="28" stroke="#16130F" stroke-width="1.2"/>
+        <circle cx="30" cy="30" r="23" stroke="#16130F" stroke-width="0.6"/>
+        <path d="M30 16c-6 0-9 4-9 9 0 4 2 6 2 9 0 4-2 5-2 5" stroke="#16130F" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="30" cy="21" r="2" fill="#16130F"/>
+      </svg>
+      <span class="footer-copy">© 2026 Semeion</span>
+      <div class="footer-social">
+        <a href="#">X</a><a href="#">Instagram</a><a href="mailto:hello@example.com">Email</a>
+      </div>
+    </div>
+    <div class="footer-tagline">Noticing. Analysing. Striking right in the centre<span class="dot">.</span></div>
+  </div>
+</footer>
+
+<script>
+  // ---------- SEARCH TOGGLE ----------
+  const searchToggle = document.getElementById('searchToggle');
+  const searchOverlay = document.getElementById('searchOverlay');
+  const searchInput   = document.getElementById('searchInput');
+  const searchClose   = document.getElementById('searchClose');
+
+  function openSearch(){
+    searchOverlay.classList.add('active');
+    searchToggle.classList.add('active');
+    searchToggle.setAttribute('aria-expanded','true');
+    setTimeout(() => searchInput.focus(), 100);
+  }
+  function closeSearch(){
+    searchOverlay.classList.remove('active');
+    searchToggle.classList.remove('active');
+    searchToggle.setAttribute('aria-expanded','false');
+    searchInput.value = '';
+  }
+  searchToggle.addEventListener('click', () => {
+    searchOverlay.classList.contains('active') ? closeSearch() : openSearch();
+  });
+  searchClose.addEventListener('click', closeSearch);
+
+  // ---------- MOBILE MENU TOGGLE ----------
+  const menuToggle  = document.getElementById('menuToggle');
+  const mobileNav   = document.getElementById('mobileNav');
+  const navBackdrop = document.getElementById('mobileNavBackdrop');
+
+  function openMenu(){
+    mobileNav.classList.add('active');
+    navBackdrop.classList.add('active');
+    menuToggle.classList.add('active');
+    menuToggle.setAttribute('aria-expanded','true');
+  }
+  function closeMenu(){
+    mobileNav.classList.remove('active');
+    navBackdrop.classList.remove('active');
+    menuToggle.classList.remove('active');
+    menuToggle.setAttribute('aria-expanded','false');
+  }
+  menuToggle.addEventListener('click', () => {
+    mobileNav.classList.contains('active') ? closeMenu() : openMenu();
+  });
+  navBackdrop.addEventListener('click', closeMenu);
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
+
+  // ---------- SHARED ESCAPE KEY ----------
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape'){ closeSearch(); closeMenu(); }
+  });
+
+  // ---------- NEWSLETTER CONFIRMATION ----------
+  const nlForm    = document.getElementById('nlForm');
+  const nlMessage = document.getElementById('nlMessage');
+  if (nlForm){
+    nlForm.addEventListener('submit', () => {
+      nlMessage.textContent = "Almost there — confirm your email in the pop-up window.";
+    });
+  }
+</script>
+
+</body>
+</html>
