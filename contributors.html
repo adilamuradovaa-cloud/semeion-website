@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contributors — Semeion</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --cream:#F1E8D8;
+  --ink:#16130F;
+  --muted:rgba(22,19,15,0.65);
+  --crimson:#A31F2B;
+  --display:'Anton', sans-serif;
+  --serif:'Cormorant Garamond', serif;
+  --sans:'IBM Plex Sans', sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--cream);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.8;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+.wrap{
+  max-width:860px;
+  margin:0 auto;
+  padding:60px 40px;
+}
+
+/* HEADER */
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:40px;
+}
+
+.brand{
+  font-family:var(--display);
+  letter-spacing:0.06em;
+}
+
+.main-nav{
+  display:flex;
+  gap:28px;
+}
+
+.main-nav a{
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  transition:color 0.2s ease;
+}
+
+.main-nav a:hover{
+  color:var(--crimson);
+}
+
+.main-nav a.active{
+  color:var(--ink);
+  border-bottom:1px solid var(--crimson);
+  padding-bottom:2px;
+}
+
+.meta{
+  font-size:12px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+/* TITLE */
+
+h1{
+  font-family:var(--serif);
+  font-size:44px;
+  line-height:1.2;
+  margin-bottom:20px;
+}
+
+.subtitle{
+  font-size:16px;
+  color:var(--muted);
+  margin-bottom:50px;
+  max-width:620px;
+}
+
+/* CONTRIBUTORS LIST */
+
+.contributors{
+  border-top:1px solid rgba(22,19,15,0.15);
+}
+
+.contributor{
+  display:flex;
+  justify-content:space-between;
+  align-items:baseline;
+  gap:24px;
+  padding:34px 0;
+  border-bottom:1px solid rgba(22,19,15,0.15);
+}
+
+.contributor .index-num{
+  font-family:var(--display);
+  font-size:13px;
+  color:var(--crimson);
+  letter-spacing:0.08em;
+  min-width:32px;
+}
+
+.contributor .info{
+  flex:1;
+}
+
+.contributor .name{
+  font-family:var(--serif);
+  font-size:28px;
+  font-style:italic;
+  margin-bottom:6px;
+}
+
+.contributor .role{
+  font-size:13px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+
+.contributor .bio{
+  font-family:var(--serif);
+  font-size:17px;
+  color:var(--muted);
+  max-width:360px;
+  text-align:right;
+}
+
+/* SECTION LABEL */
+
+h2{
+  font-family:var(--display);
+  font-size:18px;
+  letter-spacing:0.08em;
+  margin-top:60px;
+  margin-bottom:15px;
+  color:var(--crimson);
+}
+
+p{
+  margin-bottom:18px;
+  font-size:16px;
+}
+
+/* NAV FOOTER */
+
+.nav{
+  margin-top:60px;
+  display:flex;
+  justify-content:space-between;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+}
+
+.nav a:hover{
+  color:var(--crimson);
+}
+
+@media (max-width: 600px){
+  .contributor{
+    flex-direction:column;
+    gap:8px;
+  }
+  .contributor .bio{
+    text-align:left;
+  }
+  .main-nav{
+    gap:16px;
+  }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+
+<div class="top">
+  <div class="brand">SEMEION</div>
+  <nav class="main-nav">
+    <a href="index.html">Essays</a>
+    <a href="archive.html">Archive</a>
+    <a href="about.html">About</a>
+    <a href="contributors.html" class="active">Contributors</a>
+  </nav>
+</div>
+
+<div class="meta">SEMEION · CONTRIBUTORS</div>
+
+<h1>Contributors</h1>
+
+<p class="subtitle">
+The minds behind Semeion — researchers, writers, and image-makers working at the intersection of brand psychology, semiotics, and culture.
+</p>
+
+<div class="contributors">
+
+  <div class="contributor">
+    <span class="index-num">01</span>
+    <div class="info">
+      <div class="name">Sara Jabarti</div>
+      <div class="role">Contributing Writer</div>
+    </div>
+  </div>
+
+  <div class="contributor">
+    <span class="index-num">02</span>
+    <div class="info">
+      <div class="name">Olha Pavliuk</div>
+      <div class="role">Contributing Writer</div>
+    </div>
+  </div>
+
+  <div class="contributor">
+    <span class="index-num">03</span>
+    <div class="info">
+      <div class="name">Ada Muradova</div>
+      <div class="role">Founder &amp; Editor</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="nav">
+  <a href="index.html">← Back to Essays</a>
+  <a href="about.html">About Semeion →</a>
+</div>
+
+</div>
+
+</body>
+</html>
